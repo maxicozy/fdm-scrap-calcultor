@@ -49,7 +49,7 @@ const RECYCLING_DEFAULTS = {
 // Purge line deposited at every print start (~0.2–0.4 g on Bambu printers).
 // Number of starts is estimated from print hours and an average job duration
 // that scales with the g/h rate (smaller parts → shorter jobs → more starts).
-const PURGE_PER_START_G = 0.35;    // grams of filament purged per print start
+const PURGE_PER_START_G = 0.25;    // grams of filament purged per print start
 const AVG_PRINT_DURATION_H = 2;    // avg hours per print job at base (×1.0) rate
 
 // ─── Default Slider Values ─────────────────────────────────────
