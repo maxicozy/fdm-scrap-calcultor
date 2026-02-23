@@ -32,7 +32,7 @@ const MATERIAL_PROFILES = {
   pla: {
     name: 'PLA',
     densityGPerCm3: 1.24,
-    costPerKgEur: 22,       // retail price per kg spool
+    costPerKgEur: 15,       // retail price per kg spool
     recyclabilityLoss: 0.05, // 5% material loss per recycling pass
   },
 };
@@ -46,10 +46,11 @@ const RECYCLING_DEFAULTS = {
 };
 
 // ─── Purge Waste ────────────────────────────────────────────────
-// Purge line deposited at print start. Lower g/h → smaller parts → more
-// print starts per hour → more purge. Formula: hours × PURGE_FACTOR / g_per_h
-// Calibrated so 623h at ~5 g/h ≈ 3 g purge.
-const PURGE_FACTOR = 0.024;
+// Purge line deposited at every print start (~0.2–0.4 g on Bambu printers).
+// Number of starts is estimated from print hours and an average job duration
+// that scales with the g/h rate (smaller parts → shorter jobs → more starts).
+const PURGE_PER_START_G = 0.35;    // grams of filament purged per print start
+const AVG_PRINT_DURATION_H = 2;    // avg hours per print job at base (×1.0) rate
 
 // ─── Default Slider Values ─────────────────────────────────────
 // These are the initial slider positions (also used as reference defaults)

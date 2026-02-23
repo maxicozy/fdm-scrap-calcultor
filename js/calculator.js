@@ -90,8 +90,11 @@ function calculate(printerRows, coefficients, measuredWasteG, overrides = {}) {
     const baseRate = profile.consumptionRateGPerHour;
     const rate = row.customRate ?? (baseRate * rateMultiplier);
     const materialG = estimateMaterialConsumed(row.hours, rate, row.numPrinters);
-    // Purge: more print starts at lower g/h (smaller parts)
-    const purgeG = row.hours * row.numPrinters * PURGE_FACTOR / rate;
+    // Purge: estimate print starts from job duration (scales with rate ratio)
+    // Lower effective g/h → smaller parts → shorter jobs → more starts → more purge
+    const jobDurationH = AVG_PRINT_DURATION_H * (rate / baseRate);
+    const numStarts = (row.hours * row.numPrinters) / jobDurationH;
+    const purgeG = numStarts * PURGE_PER_START_G;
     return {
       name: profile.name,
       hours: row.hours,
