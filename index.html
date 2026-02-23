@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FDM Scrap Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <header>
+      <h1>FDM Scrap Value Calculator</h1>
+      <p>Estimate 3D printing waste recycling potential of PLA</p>
+    </header>
+
+    <!-- Printers -->
+    <section>
+      <h2>Printers</h2>
+      <div id="printer-rows"></div>
+      <button class="btn" id="add-printer-btn">+ Add Printer</button>
+    </section>
+
+    <!-- Coefficients -->
+    <section>
+      <h2>Coefficients</h2>
+
+      <div class="slider-group">
+        <div class="slider-item">
+          <div class="slider-label-row">
+            <label for="discard-slider">Discard Rate</label>
+            <span class="slider-value" id="discard-value">43%</span>
+          </div>
+          <input type="range" id="discard-slider" min="0" max="100" value="43" step="1">
+          <p class="slider-desc">Percentage of printed material that ends up as waste &mdash; failed prints, discarded iterations, end-of-project throwouts.</p>
+        </div>
+
+        <div class="slider-item">
+          <div class="slider-label-row">
+            <label for="support-slider">Support Ratio</label>
+            <span class="slider-value" id="support-value">8%</span>
+          </div>
+          <input type="range" id="support-slider" min="0" max="30" value="8" step="1">
+          <p class="slider-desc">Percentage of successful print mass that is support structure, rafts, or brims.</p>
+        </div>
+
+        <div class="slider-item">
+          <div class="slider-label-row">
+            <label for="rate-slider">g/h Efficiency</label>
+            <span class="slider-value" id="rate-value">&times;1.00</span>
+          </div>
+          <input type="range" id="rate-slider" min="30" max="300" value="100" step="5">
+          <p class="slider-desc">How efficiently the printers run relative to their base rate. Small parts with lots of warmup and bed leveling &rarr; low. Large batch prints &rarr; high.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Measured Waste Override -->
+    <section>
+      <h2>Measured Waste <span style="font-size:0.8rem;color:var(--text-muted);font-weight:400;">(optional)</span></h2>
+      <div class="measured-waste-wrapper">
+        <div class="field">
+          <label for="measured-waste">Weighed waste (kg)</label>
+          <input type="number" id="measured-waste" min="0" step="0.1" placeholder="e.g. 5">
+        </div>
+        <div class="hint">
+          If you've weighed your actual waste, enter it here. The calculator will use this instead of estimating, and back-calculate the % of material still in use.
+        </div>
+      </div>
+    </section>
+
+    <!-- Advanced Settings -->
+    <section>
+      <h2>Advanced Settings</h2>
+      <div>
+        <div class="advanced-grid">
+          <div class="field">
+            <label for="adv-shred-energy">Shred Energy <span class="unit">kWh/kg</span></label>
+            <input type="number" id="adv-shred-energy" min="0" step="0.01"
+                   placeholder="0.17">
+          </div>
+          <div class="field">
+            <label for="adv-extrude-energy">Extrude Energy <span class="unit">kWh/kg</span></label>
+            <input type="number" id="adv-extrude-energy" min="0" step="0.01"
+                   placeholder="0.24">
+          </div>
+          <div class="field">
+            <label for="adv-electricity-cost">Electricity <span class="unit">€/kWh</span></label>
+            <input type="number" id="adv-electricity-cost" min="0" step="0.01"
+                   placeholder="0.30">
+          </div>
+          <div class="field">
+            <label for="adv-material-cost">PLA Cost <span class="unit">€/kg</span></label>
+            <input type="number" id="adv-material-cost" min="0" step="1"
+                   placeholder="22">
+          </div>
+          <div class="field">
+            <label for="adv-recycle-loss">Recycle Loss <span class="unit">%</span></label>
+            <input type="number" id="adv-recycle-loss" min="0" max="50" step="1"
+                   placeholder="5">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section>
+      <h2>Results</h2>
+      <div id="results">
+        <p class="empty-state">Enter printer hours to see results.</p>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Scripts (order matters: config → calculator → app) -->
+  <script src="js/config.js"></script>
+  <script src="js/calculator.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
